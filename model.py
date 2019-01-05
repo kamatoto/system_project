@@ -61,6 +61,17 @@ def listbox_selected(event, index, edit_page, item_label_text):
     edit_page.tkraise()
     item_label_text.set(label)
 
+#Main Pageでリストの期限による色付け
+def coloring_list(stock,listbox):
+    now = datetime.date.today()
+    for i in range(len(stock)):
+        delta = stock[i][1] - now
+        print(delta)
+        if delta <= datetime.timedelta(days=1):
+            listbox.itemconfig(i, {'bg': 'red'})
+        elif delta <= datetime.timedelta(days=3):
+            listbox.itemconfig(i,{'bg': 'yellow'})
+
 #------------------------------------- Name Input Page ----------------------------------------------------
 #50音ボタンを押した時に呼ばれる関数
 #コールバック関数をネストして定義
@@ -269,9 +280,9 @@ def main() -> None:
     #在庫リストの動的確保
     stock = []
     #テスト用に値を代入
-    stock.append(["リンゴ", datetime.date(2018, 12, 30), 100])
+    stock.append(["リンゴ", datetime.date(2019, 1, 5), 100])
     stock.append(["ゴリラ", datetime.date(2019, 12, 30), 50])
-    stock.append(["ラッパ", datetime.date(2019, 1, 3), 25])
+    stock.append(["ラッパ", datetime.date(2019, 1, 8), 25])
     #編集用ラベル
     label = []
 
@@ -313,6 +324,7 @@ def main() -> None:
     var = StringVar(value = name_list)
     listbox = tk.Listbox(main_page, listvariable = var)
     listbox.place(y = 30, width = 800, height = 570)
+    coloring_list(stock,listbox) #消費期限による色付け
 
     #食材追加ボタンの設置
     add_btn = ttk.Button(main_page, text = "+", command = lambda : page_change(name_input_page))
