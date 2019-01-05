@@ -66,11 +66,13 @@ def coloring_list(stock,listbox):
     now = datetime.date.today()
     for i in range(len(stock)):
         delta = stock[i][1] - now
-        print(delta)
-        if delta <= datetime.timedelta(days=1):
+        #print(delta)
+        if delta < datetime.timedelta(days=0): #期限切れ
             listbox.itemconfig(i, {'bg': 'red'})
-        elif delta <= datetime.timedelta(days=3):
+        elif delta <= datetime.timedelta(days=3): #三日前
             listbox.itemconfig(i,{'bg': 'yellow'})
+        else:
+            listbox.itemconfig(i,{'bg': 'green'})
 
 #------------------------------------- Name Input Page ----------------------------------------------------
 #50音ボタンを押した時に呼ばれる関数
